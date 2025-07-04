@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="">
+<html lang="zh-CN" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,207 +21,329 @@
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
-        .tab-active { color: #0d9488; border-color: #0d9488; background-color: #f0fdfa; }
-        .dark .tab-active { background-color: #115e59; color: #ccfbf1; border-color: #14b8a6; }
-        .tab-inactive { color: #52525b; border-color: transparent; }
-        .dark .tab-inactive { color: #a1a1aa; }
+        .tab-active { color: #ccfbf1; }
+        .tab-inactive { color: #a1a1aa; }
         .chart-container { position: relative; width: 100%; max-width: 380px; margin-left: auto; margin-right: auto; height: 300px; max-height: 350px; }
         .section-content { display: none; }
-        .section-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
-        .project-card { transition: all 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .theme-switch-button { transition: all 0.3s ease; }
-    </style>
-    <script>
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
+        .section-content.active { display: block; animation: fadeIn 0.6s ease-in-out; }
+        .project-card, .info-card { transition: all 0.3s ease-in-out; }
+        .project-card:hover, .info-card:hover { 
+            transform: translateY(-4px);
+            box-shadow: 0 0 25px rgba(20, 184, 166, 0.2);
         }
-    </script>
+        .project-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardFadeInUp 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cardFadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.75rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 9999px;
+            background-color: #5eead4;
+            border: 3px solid #115e59;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 transition-colors duration-500">
+<body class="bg-slate-900 text-slate-200">
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
 
-        <header class="text-center mb-8 md:mb-12 relative">
-            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white">编程学习远征指南</h1>
-            <p class="mt-4 text-lg text-slate-600 dark:text-slate-400 leading-relaxed">打破“教程地狱”循环，从学习者进化为实践者</p>
-            <button id="theme-toggle" class="absolute top-0 right-0 p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 theme-switch-button">
-                <svg id="theme-toggle-dark-icon" class="hidden h-6 w-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                <svg id="theme-toggle-light-icon" class="hidden h-6 w-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
-            </button>
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-teal-300">编程学习远征指南</h1>
+            <p class="mt-4 text-lg text-slate-400 leading-relaxed">打破“教程地狱”循环，从学习者进化为实践者</p>
         </header>
 
-        <nav class="mb-8 border-b border-slate-200 dark:border-slate-700">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="tab-navigation">
-                <li><button class="inline-block p-4 border-b-2 rounded-t-lg tab-active" data-tab="diagnosis">🧭 诊断困境</button></li>
-                <li><button class="inline-block p-4 border-b-2 rounded-t-lg tab-inactive" data-tab="strategy">🚀 核心策略</button></li>
-                <li><button class="inline-block p-4 border-b-2 rounded-t-lg tab-inactive" data-tab="blueprint">🗺️ 实战蓝图</button></li>
-                <li><button class="inline-block p-4 border-b-2 rounded-t-lg tab-inactive" data-tab="tools">🛠️ 工具与社区</button></li>
-            </ul>
+        <nav class="mb-8 relative">
+            <div class="border-b border-slate-700">
+                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="tab-navigation">
+                    <li><button class="inline-block p-4 rounded-t-lg transition-colors duration-300 tab-active" data-tab="textbook">📚 理论教科书</button></li>
+                    <li><button class="inline-block p-4 rounded-t-lg transition-colors duration-300 tab-inactive" data-tab="workbook">🗺️ 实战工作簿</button></li>
+                    <li><button class="inline-block p-4 rounded-t-lg transition-colors duration-300 tab-inactive" data-tab="chronicles">📜 领域编年史</button></li>
+                    <li><button class="inline-block p-4 rounded-t-lg transition-colors duration-300 tab-inactive" data-tab="roadmap">🧭 职业远征路线图</button></li>
+                    <li><button class="inline-block p-4 rounded-t-lg transition-colors duration-300 tab-inactive" data-tab="tools">🛠️ 工具与资源中心</button></li>
+                </ul>
+            </div>
+            <div id="tab-underline" class="absolute bottom-0 h-0.5 bg-teal-400 transition-all duration-300 ease-out"></div>
         </nav>
 
         <main>
-            <section id="diagnosis" class="section-content active">
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700">
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">第一部分：为何您会卡在“新手村”？</h2>
-                    <p class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">您并不孤单。无数学习者都曾陷入“观看教程、尝试、失败、遗忘、再看教程”的循环。这被称为“教程地狱”，其背后有深刻的认知规律。本部分将帮助您诊断问题的根源。</p>
+            <section id="textbook" class="section-content">
+                <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第一部分：理论教科书 (Textbook)</h2>
+                    <p class="text-slate-400 mb-10 leading-relaxed">本部分是您的理论主干，旨在系统性地诊断学习困境，并提供从顶层战略到具体战术的完整框架。它将帮助您理解问题的本质，并建立一套科学的学习方法论。</p>
 
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
-                            <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-3">“教程地狱”的循环</h3>
-                            <p class="text-slate-600 dark:text-slate-400 mb-4">教程提供了“进步的幻觉”，让您在没有真正面对和解决未知问题的情况下获得虚假的成就感，从而削弱了您独立解决问题的能力。</p>
-                            <div class="space-y-4">
-                                <div class="p-4 bg-red-100 dark:bg-red-900/30 border-l-4 border-red-400 dark:border-red-500 rounded-r-lg">
-                                    <h4 class="font-bold text-red-800 dark:text-red-200">1. 学习新技能</h4>
-                                    <p class="text-sm text-red-700 dark:text-red-300">完成一个新教程，感觉良好。</p>
+                    <div class="space-y-12">
+                        <div class="p-6 bg-slate-800/50 rounded-xl border border-slate-700 info-card">
+                            <h3 class="text-xl font-semibold text-slate-100 mb-4">如何使用本指南</h3>
+                            <p class="text-slate-400 leading-relaxed">欢迎来到您的专属学习操作系统。这份指南并非一份需要从头到尾线性阅读的文档，而是一套可以反复查阅的交互式系统。我们推荐的探索路径是：</p>
+                            <ol class="list-decimal list-inside mt-4 space-y-2 text-slate-300">
+                                <li>从本页（<b class="text-teal-400">理论教科书</b>）开始，诊断您的问题并掌握核心学习战略。</li>
+                                <li>然后，进入 <b class="text-amber-400">实战工作簿</b>，选择一门语言，开始您的第一个项目实践。</li>
+                                <li>在实践之余，浏览 <b class="text-indigo-400">领域编年史</b>，建立对技术的宏观视野。</li>
+                                <li>当您对未来方向感到清晰时，查阅 <b class="text-rose-400">职业远征路线图</b>。</li>
+                                <li>最后，将 <b class="text-cyan-400">工具与资源中心</b> 作为您的军火库，随时查找需要的工具。</li>
+                            </ol>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-slate-100 mb-4">1.1 诊断：为何您会卡在“新手村”？</h3>
+                            <div class="grid md:grid-cols-2 gap-8 items-start">
+                                <div class="p-6 bg-slate-800/50 rounded-xl">
+                                    <h4 class="text-lg font-semibold text-slate-100 mb-3">“教程地狱”的循环</h4>
+                                    <p class="text-slate-400 mb-4">教程提供了“进步的幻觉”，让您在没有真正面对和解决未知问题的情况下获得虚假的成就感，从而削弱了您独立解决问题的能力。</p>
+                                    <div class="space-y-4">
+                                        <div class="p-4 bg-red-900/30 border-l-4 border-red-500 rounded-r-lg"><h4 class="font-bold text-red-200">1. 学习新技能</h4><p class="text-sm text-red-300">完成一个新教程，感觉良好。</p></div>
+                                        <div class="text-center text-red-500 text-2xl font-light">↓</div>
+                                        <div class="p-4 bg-yellow-900/30 border-l-4 border-yellow-500 rounded-r-lg"><h4 class="font-bold text-yellow-200">2. 尝试独立构建</h4><p class="text-sm text-yellow-300">遇到未知问题，不知所措。</p></div>
+                                        <div class="text-center text-yellow-500 text-2xl font-light">↓</div>
+                                        <div class="p-4 bg-blue-900/30 border-l-4 border-blue-500 rounded-r-lg"><h4 class="font-bold text-blue-200">3. 感到挫败</h4><p class="text-sm text-blue-300">信心受挫，寻求新的教程来逃避。</p></div>
+                                        <div class="text-center text-blue-500 text-2xl font-light">↓</div>
+                                        <div class="p-4 bg-red-900/30 border-l-4 border-red-500 rounded-r-lg"><h4 class="font-bold text-red-200">4. 回到第一步</h4><p class="text-sm text-red-300">开始一个新的教程，循环往复。</p></div>
+                                    </div>
                                 </div>
-                                <div class="text-center text-red-500 text-2xl font-light">↓</div>
-                                <div class="p-4 bg-yellow-100 dark:bg-yellow-900/30 border-l-4 border-yellow-400 dark:border-yellow-500 rounded-r-lg">
-                                    <h4 class="font-bold text-yellow-800 dark:text-yellow-200">2. 尝试独立构建</h4>
-                                    <p class="text-sm text-yellow-700 dark:text-yellow-300">遇到未知问题，不知所措。</p>
-                                </div>
-                                <div class="text-center text-yellow-500 text-2xl font-light">↓</div>
-                                <div class="p-4 bg-blue-100 dark:bg-blue-900/30 border-l-4 border-blue-400 dark:border-blue-500 rounded-r-lg">
-                                    <h4 class="font-bold text-blue-800 dark:text-blue-200">3. 感到挫败</h4>
-                                    <p class="text-sm text-blue-700 dark:text-blue-300">信心受挫，寻求新的教程来逃避。</p>
-                                </div>
-                                 <div class="text-center text-blue-500 text-2xl font-light">↓</div>
-                                <div class="p-4 bg-red-100 dark:bg-red-900/30 border-l-4 border-red-400 dark:border-red-500 rounded-r-lg">
-                                    <h4 class="font-bold text-red-800 dark:text-red-200">4. 回到第一步</h4>
-                                    <p class="text-sm text-red-700 dark:text-red-300">开始一个新的教程，循环往复。</p>
+                                <div class="p-6 bg-slate-800/50 rounded-xl">
+                                    <h4 class="text-lg font-semibold text-slate-100 mb-3">核心概念：两种知识的鸿沟</h4>
+                                    <p class="text-slate-400 mb-4">您拥有大量“知道是什么”的**声明性知识**（如语法），但严重缺乏“知道怎么做”的**过程性知识**（解决问题的能力）。</p>
+                                    <div class="chart-container">
+                                        <canvas id="learningTimeChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
-                            <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-3">失衡的学习时间</h3>
-                            <p class="text-slate-600 dark:text-slate-400 mb-4">“教程地狱”中的学习者，其时间分配往往极不均衡，绝大部分时间用于被动输入，而主动实践的时间严重不足。</p>
-                            <div class="chart-container">
-                                <canvas id="learningTimeChart"></canvas>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-slate-100 mb-4">1.2 顶层战略：深度研究的三大支柱</h3>
+                            <p class="text-slate-400 mb-6 leading-relaxed">在诊断了问题后，我们需要一套顶层战略来指导行动。要真正掌握一个领域，不能只依赖零散的教程或项目。一个结构化的深度研究系统能让您的学习事半功倍。这个系统由三大支柱构成，它们相辅相成，构建起完整的认知体系。</p>
+                             <div class="grid md:grid-cols-3 gap-6">
+                                <div class="p-5 bg-blue-900/30 rounded-xl info-card"><h4 class="font-bold text-blue-200">📚 理论教科书 (Textbook)</h4><p class="text-sm text-slate-400 mt-2">**作用**：提供系统、严谨的知识主干。一本好的教科书能建立起领域的宏观地图，让您理解各个概念之间的逻辑关系。</p></div>
+                                <div class="p-5 bg-amber-900/30 rounded-xl info-card"><h4 class="font-bold text-amber-200">🔬 实战工作簿 (Lab-Only Workbook)</h4><p class="text-sm text-slate-400 mt-2">**作用**：将理论转化为技能。它专注于动手实践，通过一系列精心设计的实验或项目，让您“手到脑到”。</p></div>
+                                <div class="p-5 bg-indigo-900/30 rounded-xl info-card"><h4 class="font-bold text-indigo-200">📜 领域编年史 (Chronicles)</h4><p class="text-sm text-slate-400 mt-2">**作用**：提供历史背景和演化脉络。了解一门技术为何诞生、解决了什么问题，能极大加深您的理解。</p></div>
+                            </div>
+                            <div class="mt-6 text-center text-slate-400 flex items-center justify-center space-x-2">
+                                <span class="font-mono text-blue-400">Textbook</span>
+                                <span class="text-2xl font-light text-slate-500">→</span>
+                                <span class="font-mono text-amber-400">Lab</span>
+                                <span class="text-2xl font-light text-slate-500">→</span>
+                                <span class="font-mono text-indigo-400">Chronicles</span>
+                                <span class="text-2xl font-light text-slate-500">→</span>
+                                <span class="font-mono text-teal-400">深刻理解</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold text-slate-100 mb-4">1.3 基础战役：从代码到作品</h3>
+                            <p class="text-slate-400 mb-6 leading-relaxed">有了顶层战略，我们需要具体的战术来执行。以下是您将知识转化为作品的第一个、也是最关键的战役。</p>
+                            <div class="p-6 bg-slate-800/50 rounded-xl space-y-6">
+                                <h4 class="font-bold text-lg text-slate-200">第一步：搭建专业开发环境</h4>
+                                <p class="text-sm text-slate-400 -mt-4">在编写代码前，您的“零号项目”就是搭建一个专业的工作环境。完成它，意味着您从“教程的追随者”转变为“环境的构建者”，这是心态上的巨大转变。</p>
+                                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <div class="p-4 bg-slate-900/50 rounded-lg border border-slate-700 info-card"><div class="text-2xl mb-2">⌨️</div><h5 class="font-semibold text-slate-100">配置IDE</h5><p class="text-xs text-slate-400 mt-1">安装VS Code或JetBrains系列IDE，并配置语言插件。</p></div>
+                                    <div class="p-4 bg-slate-900/50 rounded-lg border border-slate-700 info-card"><div class="text-2xl mb-2">🌿</div><h5 class="font-semibold text-slate-100">掌握Git</h5><p class="text-xs text-slate-400 mt-1">学习`git init`, `add`, `commit`，为所有项目提供版本控制。</p></div>
+                                    <div class="p-4 bg-slate-900/50 rounded-lg border border-slate-700 info-card"><div class="text-2xl mb-2">📦</div><h5 class="font-semibold text-slate-100">使用虚拟环境</h5><p class="text-xs text-slate-400 mt-1">为每个项目创建隔离的环境（venv, Go Modules, Composer）。</p></div>
+                                    <div class="p-4 bg-slate-900/50 rounded-lg border border-slate-700 info-card"><div class="text-2xl mb-2">📁</div><h5 class="font-semibold text-slate-100">规范项目结构</h5><p class="text-xs text-slate-400 mt-1">建立清晰的目录结构，如`src/`, `tests/`, `docs/`。</p></div>
+                                </div>
+                                <h4 class="font-bold text-lg text-slate-200 pt-6 border-t border-slate-700">第二步：拥抱AI协作与最佳实践</h4>
+                                <p class="text-sm text-slate-400 -mt-4">现代开发是人与工具的协作。学会利用AI，并遵循业界标准，能让您的作品更专业、更可靠。</p>
+                                <div class="grid md:grid-cols-2 gap-8">
+                                    <div class="space-y-4">
+                                        <h5 class="font-semibold text-green-300">✅ AI 智能领航员</h5>
+                                        <p class="text-sm flex items-start"><span class="mr-3 text-lg">💬</span><span>**作为概念解释器**：让AI用比喻解释复杂概念。</span></p>
+                                        <p class="text-sm flex items-start"><span class="mr-3 text-lg">🔍</span><span>**作为代码审查伙伴**：让AI检查代码风格和潜在问题。</span></p>
+                                        <p class="text-sm flex items-start"><span class="mr-3 text-lg">🐛</span><span>**作为辅助调试器**：将错误信息发给AI，寻求可能的原因。</span></p>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <h5 class="font-semibold text-cyan-300">🏆 专业最佳实践</h5>
+                                        <p class="text-sm flex items-start"><span class="mr-3 text-lg">💅</span><span>**代码质量**：使用Linter和Formatter统一代码风格。</span></p>
+                                        <p class="text-sm flex items-start"><span class="mr-3 text-lg">🧪</span><span>**测试入门**：学习编写单元测试，保证代码可靠性。</span></p>
+                                        <p class="text-sm flex items-start"><span class="mr-3 text-lg">🔗</span><span>**依赖管理**：精确记录项目依赖，确保可复现性。</span></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="strategy" class="section-content">
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700">
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">第二部分：核心策略——从代码到作品</h2>
-                    <p class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">解决方案不是“更努力地学习”，而是“更聪明地学习”。您需要将思维从“学习语法”转变为“构建作品”，在解决真实问题的过程中获取知识。这被称为“项目驱动学习法”（PBL）。</p>
-                    
-                    <div class="space-y-10">
-                        <div>
-                            <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-4">您的第一个“真正”的项目：搭建专业开发环境</h3>
-                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">在编写代码前，您的“零号项目”就是搭建一个专业的工作环境。完成它，意味着您从“教程的追随者”转变为“环境的构建者”，这是心态上的巨大转变。</p>
-                            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                <div class="p-5 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <div class="text-3xl mb-3">⌨️</div>
-                                    <h4 class="font-bold text-slate-800 dark:text-slate-100">1. 配置IDE</h4>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">安装并配置VS Code或JetBrains系列IDE，学会使用插件和集成终端。</p>
-                                </div>
-                                <div class="p-5 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <div class="text-3xl mb-3">🌿</div>
-                                    <h4 class="font-bold text-slate-800 dark:text-slate-100">2. 掌握Git</h4>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">学习`git init`, `git add`, `git commit`。为您的所有项目提供版本控制。</p>
-                                </div>
-                                <div class="p-5 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <div class="text-3xl mb-3">📦</div>
-                                    <h4 class="font-bold text-slate-800 dark:text-slate-100">3. 使用虚拟环境</h4>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">为每个项目创建隔离的环境 (Python的venv, Go的Modules, PHP的Composer)。</p>
-                                </div>
-                                <div class="p-5 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <div class="text-3xl mb-3">📁</div>
-                                    <h4 class="font-bold text-slate-800 dark:text-slate-100">4. 规范项目结构</h4>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">建立清晰的目录结构，如`src/`, `tests/`, `docs/`。</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-100 mb-4">进阶心法：超越基础语法</h3>
-                            <p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">真正的项目代码与教程代码天差地别。掌握以下最佳实践，是您从新手迈向专业的必经之路。</p>
-                            <div class="grid md:grid-cols-3 gap-6">
-                                <div class="p-5 bg-green-50 dark:bg-green-900/30 rounded-xl">
-                                    <h4 class="font-bold text-green-800 dark:text-green-200">代码质量</h4>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">使用Linter（如ESLint, Pylint）和Formatter（如Prettier, Black）来统一代码风格，并及早发现潜在错误。</p>
-                                </div>
-                                <div class="p-5 bg-yellow-50 dark:bg-yellow-900/30 rounded-xl">
-                                    <h4 class="font-bold text-yellow-800 dark:text-yellow-200">测试入门</h4>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">学习编写单元测试，确保您的代码在修改后依然能正常工作。这是构建可靠软件的基石。</p>
-                                </div>
-                                <div class="p-5 bg-rose-50 dark:bg-rose-900/30 rounded-xl">
-                                    <h4 class="font-bold text-rose-800 dark:text-rose-200">依赖管理</h4>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">精确地记录您项目的所有依赖及其版本，确保项目在任何地方都能被复现和运行。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="blueprint" class="section-content">
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700">
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">第三部分：实战蓝图——您的进阶项目路径</h2>
-                    <p class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">理论需要实践来落地。本部分为您提供从模仿到创造的“三步进阶模型”，以及针对Python、Go、PHP的详细项目路线图。请选择一门语言，开始您的建造之旅。</p>
+            <section id="workbook" class="section-content">
+                <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第二部分：实战工作簿 (Lab-Only Workbook)</h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">理论需要实践来落地。本部分是您的“实战工作簿”，提供从模仿到创造的“三步进阶模型”，以及针对Python、Go、PHP的详细项目路线图。请选择一门语言，开始您的建造之旅。</p>
                     
                     <div class="flex justify-center space-x-2 mb-8" id="language-filter">
-                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-teal-600 dark:bg-teal-500 text-white" data-lang="all">全部</button>
-                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300" data-lang="python">Python</button>
-                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300" data-lang="go">Go</button>
-                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300" data-lang="php">PHP</button>
+                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-teal-500 text-white transition-all duration-300" data-lang="all">全部</button>
+                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-700 text-slate-300 transition-all duration-300" data-lang="python">Python</button>
+                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-700 text-slate-300 transition-all duration-300" data-lang="go">Go</button>
+                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-700 text-slate-300 transition-all duration-300" data-lang="php">PHP</button>
                     </div>
 
                     <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     </div>
                 </div>
             </section>
-
-            <section id="tools" class="section-content">
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700">
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">第四部分：构建您的支持系统</h2>
-                    <p class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">持久的成长需要强大的系统支持。以下工具和策略将帮助您巩固知识、管理信息、高效求助，并找到您的“部落”。</p>
-                    
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div class="p-6 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl">
-                             <h3 class="text-xl font-semibold text-indigo-900 dark:text-indigo-100 mb-3">🧠 构建第二大脑</h3>
-                             <p class="text-indigo-800 dark:text-indigo-200 mb-4">使用工具记录和组织您的学习，将零散经验转化为结构化智慧。</p>
-                             <div class="space-y-4">
-                                <div class="flex items-start space-x-4">
-                                    <div class="text-2xl">🗂️</div>
-                                    <div>
-                                        <h4 class="font-bold"><a href="https://apps.ankiweb.net/" target="_blank" rel="noopener noreferrer" class="text-indigo-800 dark:text-indigo-200 hover:underline">Anki：对抗遗忘</a></h4>
-                                        <p class="text-sm text-slate-600 dark:text-slate-400">使用间隔重复法，将核心概念和解决方案转化为长期记忆。</p>
-                                    </div>
+            
+            <section id="chronicles" class="section-content">
+                <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第三部分：领域编年史 (Chronicles)</h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">了解技术的来龙去脉，能让您站在巨人的肩膀上思考。本部分为您提供Python、Go和PHP的简明“编年史”，帮助您理解它们的设计哲学和生态位，建立起宏观的技术视野。</p>
+                    <div class="space-y-10">
+                        <div class="p-6 bg-blue-900/30 rounded-xl info-card">
+                            <h3 class="text-xl font-bold text-blue-200 mb-3">Python：“优雅”与“明确”的哲学</h3>
+                            <div class="space-y-4">
+                                <p class="text-slate-300 leading-relaxed">诞生于1991年，由Guido van Rossum创造。其核心哲学是“代码应如散文般可读”。Python的设计强调代码的可读性和简洁的语法，旨在让开发者能用更少的代码行数表达想法。</p>
+                                <div class="relative pl-8 border-l border-dashed border-blue-400/30">
+                                    <h4 class="font-semibold text-blue-300 timeline-item">关键里程碑：</h4>
+                                    <ul class="list-disc list-inside text-sm text-slate-400 mt-2 space-y-2">
+                                        <li><b>2000年</b>: Python 2.0发布，引入列表推导式等重要特性，社区开始壮大。</li>
+                                        <li><b>2008年</b>: Python 3.0发布，一个不向后兼容的重大更新，旨在修复早期设计缺陷，统一编码规范。</li>
+                                        <li><b>2010s</b>: 随着NumPy, SciPy, Pandas等库的成熟，Python成为科学计算和数据分析的首选。</li>
+                                        <li><b>至今</b>: 在AI和机器学习浪潮中，凭借TensorFlow, PyTorch等框架，Python确立了其在智能时代的统治地位。</li>
+                                    </ul>
                                 </div>
-                                <div class="flex items-start space-x-4">
-                                    <div class="text-2xl">💎</div>
-                                    <div>
-                                        <h4 class="font-bold"><a href="https://obsidian.md/" target="_blank" rel="noopener noreferrer" class="text-indigo-800 dark:text-indigo-200 hover:underline">Obsidian：个人知识库</a></h4>
-                                        <p class="text-sm text-slate-600 dark:text-slate-400">建立可链接、可搜索的笔记系统，记录项目日志、代码片段和错误解决方案。</p>
-                                    </div>
+                                <div><h4 class="font-semibold text-blue-300">推荐“编年史”读物：</h4><p class="text-sm text-slate-400 mt-2">阅读 <a href="https://peps.python.org/pep-0020/" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-400">The Zen of Python (PEP 20)</a>，理解其背后“优美胜于丑陋，明确胜于隐晦”的设计哲学。</p></div>
+                            </div>
+                        </div>
+                        <div class="p-6 bg-sky-900/30 rounded-xl info-card">
+                            <h3 class="text-xl font-bold text-sky-200 mb-3">Go: 为并发与云而生</h3>
+                             <div class="space-y-4">
+                                <p class="text-slate-300 leading-relaxed">于2009年在Google发布，由Robert Griesemer, Rob Pike和Ken Thompson等大师级人物设计。Go的诞生源于对现有语言（如C++）在多核处理器、网络化系统和大规模代码库方面表现的不满。</p>
+                                <div class="relative pl-8 border-l border-dashed border-sky-400/30">
+                                    <h4 class="font-semibold text-sky-300 timeline-item">关键里程碑：</h4>
+                                    <ul class="list-disc list-inside text-sm text-slate-400 mt-2 space-y-2">
+                                        <li><b>2012年</b>: Go 1.0发布，做出了向后兼容性承诺，标志着其进入稳定期。</li>
+                                        <li><b>2013-2014年</b>: Docker和Kubernetes这两个革命性的项目选择使用Go语言开发，极大地推动了Go在云原生领域的普及。</li>
+                                        <li><b>2018年</b>: Go 1.11引入Modules，提供了官方的、现代化的依赖管理方案，解决了长期以来的包管理痛点。</li>
+                                        <li><b>2022年</b>: Go 1.18引入泛型，这是Go语言历史上最重要的特性之一，增强了代码的复用性和表达力。</li>
+                                    </ul>
+                                </div>
+                                <div><h4 class="font-semibold text-sky-300">推荐“编年史”读物：</h4><p class="text-sm text-slate-400 mt-2">阅读 Rob Pike 的经典文章 <a href="https://go.dev/talks/2012/splash.article" target="_blank" rel="noopener noreferrer" class="underline hover:text-sky-400">"Go at Google: Language Design in the Service of Software Engineering"</a>，理解Go为何被设计成今天的样子。</p></div>
+                            </div>
+                        </div>
+                        <div class="p-6 bg-violet-900/30 rounded-xl info-card">
+                            <h3 class="text-xl font-bold text-violet-200 mb-3">PHP: Web的实用主义演化</h3>
+                            <div class="space-y-4">
+                                <p class="text-slate-300 leading-relaxed">始于1994年，由Rasmus Lerdorf为维护其个人主页而创造的一套简单脚本。PHP的成功在于其极低的入门门槛和与Web服务器的紧密集成，它让构建动态网页变得前所未有的简单。</p>
+                                <div class="relative pl-8 border-l border-dashed border-violet-400/30">
+                                    <h4 class="font-semibold text-violet-300 timeline-item">关键里程碑：</h4>
+                                    <ul class="list-disc list-inside text-sm text-slate-400 mt-2 space-y-2">
+                                        <li><b>2004年</b>: PHP 5发布，引入了完整的面向对象模型，标志着PHP开始向更严肃的编程语言演进。</li>
+                                        <li><b>2009年</b>: PHP-FIG成立，开始制定PSR（PHP Standard Recommendations）规范，推动了社区代码的标准化和互操作性。</li>
+                                        <li><b>2012年</b>: Composer发布，为PHP带来了现代化的依赖管理，彻底改变了PHP的生态系统。</li>
+                                        <li><b>2015年</b>: PHP 7发布，带来了巨大的性能提升（比PHP 5快2倍以上），并引入了标量类型声明等现代语言特性，重振了社区信心。</li>
+                                    </ul>
+                                </div>
+                                <div><h4 class="font-semibold text-violet-300">推荐“编年史”读物：</h4><p class="text-sm text-slate-400 mt-2">了解 <a href="https://www.php-fig.org/psr/" target="_blank" rel="noopener noreferrer" class="underline hover:text-violet-400">PHP-FIG 和 PSR 规范的历史</a>，理解PHP社区是如何通过协作将一门脚本语言逐步专业化的。</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="roadmap" class="section-content">
+                <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第四部分：职业远征路线图</h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">恭喜您！当您能独立完成项目时，您已经不再是新手。这并非终点，而是新征程的起点。本部分将为您提供职业发展的宏观地图，帮助您规划从“能做项目”到“成为专家”的道路。</p>
+                    
+                    <div class="space-y-12">
+                        <div class="p-6 bg-slate-800/50 rounded-xl info-card">
+                             <h3 class="text-xl font-semibold text-slate-100 mb-3">核心理念：成为“T型人才”</h3>
+                             <p class="text-slate-400 mb-4 leading-relaxed">在技术行业，最有价值的人才模型是“T型人才”。“T”的横杠代表您知识的广度，即对相关领域的涉猎；竖杠代表您在一个或两个特定方向上的深度专长。</p>
+                             <div class="mt-4 p-4 bg-slate-900/50 rounded-lg flex items-center justify-center">
+                                 <div class="text-center">
+                                     <div class="bg-teal-500 h-2 w-48 mx-auto rounded-t-sm"></div>
+                                     <div class="bg-teal-500 h-32 w-2 mx-auto rounded-b-sm"></div>
+                                     <p class="mt-2 text-sm text-teal-300">广博的知识面 + 深入的专业技能</p>
+                                 </div>
+                             </div>
+                        </div>
+
+                        <div>
+                             <h3 class="text-xl font-semibold text-slate-100 mb-4">四大远征方向</h3>
+                             <p class="text-slate-400 mb-6 leading-relaxed">以下是四个主流的职业发展方向。每个方向都包含了构建“T型”知识结构所需的广度与深度技能。更详细、交互式的路线图，我们强烈推荐您探索 <a href="https://roadmap.sh/" target="_blank" rel="noopener noreferrer" class="underline hover:text-teal-400">roadmap.sh</a>。</p>
+                             <div class="grid md:grid-cols-2 gap-8">
+                                <div class="p-6 bg-rose-900/30 rounded-xl space-y-3">
+                                    <h4 class="text-lg font-bold text-rose-200">前端工程师</h4>
+                                    <p class="text-sm text-slate-400"><b>远征任务：</b>构建用户直接与之交互的界面，创造流畅、美观、易用的用户体验。</p>
+                                    <p class="text-sm text-slate-300"><b>广度技能 (一横):</b> HTML, CSS, JavaScript 基础, Git, HTTP协议, API交互。</p>
+                                    <p class="text-sm text-slate-300"><b>深度技能 (一纵):</b> 精通一个现代框架 (React/Vue/Angular), Web性能优化, 构建工具 (Webpack/Vite), 可访问性 (Accessibility), 测试。</p>
+                                </div>
+                                <div class="p-6 bg-emerald-900/30 rounded-xl space-y-3">
+                                    <h4 class="text-lg font-bold text-emerald-200">后端工程师</h4>
+                                    <p class="text-sm text-slate-400"><b>远征任务：</b>构建支撑应用运行的服务器、数据库和业务逻辑，确保系统稳定、高效、安全。</p>
+                                    <p class="text-sm text-slate-300"><b>广度技能 (一横):</b> 一门后端语言 (Go/Python/PHP), 数据库基础 (SQL/NoSQL), Git, 操作系统基础。</p>
+                                    <p class="text-sm text-slate-300"><b>深度技能 (一纵):</b> API设计 (REST/GraphQL), 系统架构设计, 数据库优化, 缓存策略 (Redis), 消息队列 (RabbitMQ/Kafka)。</p>
+                                </div>
+                                <div class="p-6 bg-sky-900/30 rounded-xl space-y-3">
+                                    <h4 class="text-lg font-bold text-sky-200">运维/SRE工程师</h4>
+                                    <p class="text-sm text-slate-400"><b>远征任务：</b>自动化软件的构建、测试、部署流程，并保障线上服务的高可用性和可靠性。</p>
+                                    <p class="text-sm text-slate-300"><b>广度技能 (一横):</b> Linux系统管理, 网络基础, 脚本语言 (Shell/Python)。</p>
+                                    <p class="text-sm text-slate-300"><b>深度技能 (一纵):</b> CI/CD (Jenkins/GitHub Actions), 容器化 (Docker), 容器编排 (Kubernetes), 云平台 (AWS/Azure/GCP), 监控与可观测性 (Prometheus/Grafana)。</p>
+                                </div>
+                                <div class="p-6 bg-fuchsia-900/30 rounded-xl space-y-3">
+                                    <h4 class="text-lg font-bold text-fuchsia-200">数据科学/机器学习工程师</h4>
+                                    <p class="text-sm text-slate-400"><b>远征任务：</b>从海量数据中挖掘价值、构建预测模型，并将其工程化落地，赋能业务决策。</p>
+                                    <p class="text-sm text-slate-300"><b>广度技能 (一横):</b> Python编程, 统计学基础, SQL, 数据可视化。</p>
+                                    <p class="text-sm text-slate-300"><b>深度技能 (一纵):</b> 机器学习算法, 数据处理与特征工程 (Pandas/NumPy), 深度学习框架 (PyTorch/TensorFlow), MLOps, 大数据技术 (Spark)。</p>
                                 </div>
                              </div>
                         </div>
-                        <div class="p-6 bg-green-50 dark:bg-green-900/30 rounded-xl">
-                            <h3 class="text-xl font-semibold text-green-900 dark:text-green-100 mb-3">🤝 加入社区与高效求助</h3>
-                            <p class="text-green-800 dark:text-green-200 mb-4">卡住是常态，学会求助是核心技能。一个高质量的提问能为您节省大量时间。</p>
-                             <div class="space-y-4">
-                                <div class="flex items-start space-x-4">
-                                     <div class="text-2xl">❓</div>
-                                     <div>
-                                        <h4 class="font-bold"><a href="https://stackoverflow.com/help/how-to-ask" target="_blank" rel="noopener noreferrer" class="text-green-800 dark:text-green-200 hover:underline">提问的艺术</a></h4>
-                                        <p class="text-sm text-slate-600 dark:text-slate-400">学习提供上下文、最小可复现示例、以及描述期望与实际结果。</p>
-                                     </div>
-                                </div>
-                                 <div class="flex items-start space-x-4">
-                                     <div class="text-2xl">🌐</div>
-                                     <div>
-                                        <h4 class="font-bold">寻找部落</h4>
-                                        <p class="text-sm text-slate-600 dark:text-slate-400">加入 <a href="https://www.reddit.com/r/learnprogramming/" target="_blank" rel="noopener noreferrer" class="text-green-700 dark:text-green-300 hover:underline">Reddit</a>, <a href="https://discord.com/" target="_blank" rel="noopener noreferrer" class="text-green-700 dark:text-green-300 hover:underline">Discord</a>, <a href="https://stackoverflow.com" target="_blank" rel="noopener noreferrer" class="text-green-700 dark:text-green-300 hover:underline">Stack Overflow</a> 等社区，与其他开发者交流。</p>
-                                     </div>
-                                 </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tools" class="section-content">
+                <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第五部分：工具与资源中心</h2>
+                    <p class="text-slate-400 mb-8 leading-relaxed">本部分是前述所有理论、战略和实践的“军火库”。它遵循奥卡姆剃刀法则，为您精选了每个环节中最核心、最受社区认可的工具和资源，避免您在选择上耗费精力。</p>
+                    
+                    <div class="space-y-10">
+                        <div class="p-6 bg-slate-800/50 rounded-xl">
+                             <h3 class="text-lg font-semibold text-slate-100 mb-4">开发与构建</h3>
+                             <div class="grid md:grid-cols-3 gap-6">
+                                <div><h4 class="font-bold text-teal-300">IDE</h4><p class="mt-1 text-sm text-slate-400">强大的集成开发环境是效率的基石。推荐：<a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-teal-400">VS Code</a>, <a href="https://www.jetbrains.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-teal-400">JetBrains IDEs</a>。</p></div>
+                                <div><h4 class="font-bold text-teal-300">版本控制</h4><p class="mt-1 text-sm text-slate-400">现代开发的必备技能。学习 <a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-teal-400">Git</a>，并使用 <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-teal-400">GitHub</a> 托管您的代码。</p></div>
+                                <div><h4 class="font-bold text-teal-300">依赖管理</h4><p class="mt-1 text-sm text-slate-400">Python: `venv` + `pip` 或 <a href="https://python-poetry.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-teal-400">Poetry</a>。<br>Go: 内置的 <a href="https://go.dev/ref/mod" target="_blank" rel="noopener noreferrer" class="underline hover:text-teal-400">Go Modules</a>。<br>PHP: <a href="https://getcomposer.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-teal-400">Composer</a>。</p></div>
                              </div>
+                        </div>
+
+                         <div class="p-6 bg-slate-800/50 rounded-xl">
+                             <h3 class="text-lg font-semibold text-slate-100 mb-4">调试与测试</h3>
+                             <div class="grid md:grid-cols-3 gap-6">
+                                <div><h4 class="font-bold text-cyan-300">API 客户端</h4><p class="mt-1 text-sm text-slate-400">调试和测试API的必备工具。推荐：<a href="https://www.postman.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cyan-400">Postman</a>。</p></div>
+                                <div><h4 class="font-bold text-cyan-300">代码质量</h4><p class="mt-1 text-sm text-slate-400">Python: <a href="https://github.com/psf/black" target="_blank" rel="noopener noreferrer" class="underline hover:text-cyan-400">Black</a> (格式化), <a href="https://pylint.readthedocs.io/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cyan-400">Pylint</a> (检查)。<br>Go: 内置 `gofmt` 和 `go vet`。<br>PHP: <a href="https://cs.symfony.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cyan-400">PHP-CS-Fixer</a>。</p></div>
+                                <div><h4 class="font-bold text-cyan-300">测试框架</h4><p class="mt-1 text-sm text-slate-400">Python: <a href="https://docs.pytest.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cyan-400">pytest</a>。<br>Go: 内置的 `testing` 包。<br>PHP: <a href="https://phpunit.de/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cyan-400">PHPUnit</a>。</p></div>
+                             </div>
+                        </div>
+                        
+                        <div class="p-6 bg-slate-800/50 rounded-xl">
+                             <h3 class="text-lg font-semibold text-slate-100 mb-4">部署与上线</h3>
+                             <div class="grid md:grid-cols-3 gap-6">
+                                <div><h4 class="font-bold text-amber-300">静态网站</h4><p class="mt-1 text-sm text-slate-400">简单、免费、快速。推荐：<a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-400">GitHub Pages</a>, <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-400">Netlify</a>。</p></div>
+                                <div><h4 class="font-bold text-amber-300">Web 应用</h4><p class="mt-1 text-sm text-slate-400">提供免费额度的PaaS平台，极大简化部署流程。推荐：<a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-400">Vercel</a>, <a href="https://railway.app/" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-400">Railway</a>。</p></div>
+                                <div><h4 class="font-bold text-amber-300">数据库</h4><p class="mt-1 text-sm text-slate-400">云数据库服务，提供慷慨的免费套餐。推荐：<a href="https://supabase.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-400">Supabase</a> (Postgres), <a href="https://planetscale.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-400">PlanetScale</a> (MySQL)。</p></div>
+                             </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="p-6 bg-green-900/30 rounded-xl info-card">
+                                 <h3 class="text-lg font-semibold text-green-200 mb-3">🤖 AI 协作伙伴</h3>
+                                 <p class="text-sm text-slate-400">将AI作为您的私人助教，加速学习进程。主流选择：<a href="https://github.com/features/copilot" target="_blank" rel="noopener noreferrer" class="underline hover:text-green-300">GitHub Copilot</a>, <a href="https://chat.openai.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-green-300">ChatGPT</a>。</p>
+                            </div>
+                            <div class="p-6 bg-indigo-900/30 rounded-xl info-card">
+                                 <h3 class="text-lg font-semibold text-indigo-200 mb-3">🧠 知识与成长</h3>
+                                 <p class="text-sm text-slate-400">系统化您的知识，并找到下一步的方向。推荐：<a href="https://roadmap.sh/" target="_blank" rel="noopener noreferrer" class="underline hover:text-indigo-300">roadmap.sh</a> (学习路线图), <a href="https://obsidian.md/" target="_blank" rel="noopener noreferrer" class="underline hover:text-indigo-300">Obsidian</a> (知识管理)。</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -232,27 +354,49 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('#tab-navigation button');
-            const sections = document.querySelectorAll('.section-content');
+            const allSections = document.querySelectorAll('main > section');
+            const underline = document.getElementById('tab-underline');
+
+            function updateUnderline(element) {
+                underline.style.left = `${element.offsetLeft}px`;
+                underline.style.width = `${element.offsetWidth}px`;
+            }
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    tabs.forEach(t => {
-                        t.classList.replace('tab-active', 'tab-inactive');
-                        t.classList.remove('dark:bg-teal-500/30');
-                    });
+                    tabs.forEach(t => t.classList.replace('tab-active', 'tab-inactive'));
                     tab.classList.replace('tab-inactive', 'tab-active');
                     
-                    const target = document.getElementById(tab.dataset.tab);
-                    sections.forEach(s => s.classList.remove('active'));
-                    target.classList.add('active');
+                    updateUnderline(tab);
+
+                    allSections.forEach(s => s.classList.remove('active'));
+                    
+                    const targetId = tab.dataset.tab;
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
                 });
             });
 
-            const chartLabelColor = document.documentElement.classList.contains('dark') ? 'rgba(203, 213, 225, 0.8)' : 'rgba(51, 65, 85, 0.8)';
-            const chartTitleColor = document.documentElement.classList.contains('dark') ? 'rgba(241, 245, 249, 1)' : 'rgba(15, 23, 42, 1)';
+            const initialActiveTab = document.querySelector('#tab-navigation .tab-active');
+            if (initialActiveTab) {
+                const initialTargetId = initialActiveTab.dataset.tab;
+                const initialTargetSection = document.getElementById(initialTargetId);
+                allSections.forEach(s => s.classList.remove('active'));
+                if (initialTargetSection) {
+                    initialTargetSection.classList.add('active');
+                    setTimeout(() => updateUnderline(initialActiveTab), 50);
+                }
+            }
+
+
+            const chartLabelColor = 'rgba(203, 213, 225, 0.8)';
+            const chartTitleColor = 'rgba(241, 245, 249, 1)';
+            const chartBorderColor = '#1e293b';
 
             const ctx = document.getElementById('learningTimeChart').getContext('2d');
-            const learningTimeChart = new Chart(ctx, {
+            window.learningTimeChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: ['被动观看教程', '主动编码实践'],
@@ -260,7 +404,7 @@
                         label: '时间分配',
                         data: [80, 20],
                         backgroundColor: ['#fca5a5', '#86efac'],
-                        borderColor: [document.documentElement.classList.contains('dark') ? '#1e293b' : '#f8fafc', document.documentElement.classList.contains('dark') ? '#1e293b' : '#f8fafc'],
+                        borderColor: [chartBorderColor, chartBorderColor],
                         borderWidth: 4
                     }]
                 },
@@ -283,7 +427,7 @@
                 { stage: 3, lang: 'python', title: '个人开销追踪Web应用', desc: '使用Flask或Django，构建记录开销并生成报告的Web应用。', concepts: 'Web框架, 数据库, ORM, 用户认证', best_practice: '使用 `pytest` 编写单元测试，确保核心业务逻辑（如记账、统计）的正确性。' },
                 
                 { stage: 1, lang: 'go', title: '简单的Web服务器', desc: '使用标准库构建一个响应"Hello, World!"的Web服务器。', concepts: 'net/http, HandleFunc, Go模块管理', best_practice: '将不同的路由处理逻辑拆分到独立的函数中，而不是全部写在 `main` 函数里。' },
-                { stage: 1, lang: 'go', title: '命令行待办事项工具', desc: '通过命令行管理待办事项，数据存储在本地文件。', concepts: 'os包, struct, json/csv, bufio', best_practice: '使用 `cobra` 或 `urfave/cli` 库来构建更强大的命令行接口。' },
+                { stage: 1, lang: 'go', title: '命令行待办事项工具', desc: '通过命令行管理待办事项，数据存储在本地文件。', concepts: 'os包, struct, json/csv, bufio', best_practice: '使用 `cobra` 或 `urfave/cli` 库来创建更强大的命令行接口。' },
                 { stage: 2, lang: 'go', title: 'CRUD API服务', desc: '使用Gin或Fiber等框架，构建一个完整的增删改查API。', concepts: 'Web框架, 路由, 模型绑定, RESTful', best_practice: '定义清晰的 API 版本（如 `/api/v1/`），并为API响应设计统一的数据结构。' },
                 { stage: 2, lang: 'go', title: '并发Web爬虫', desc: '并发地抓取多个页面以提高速度。', concepts: 'Goroutines, Channels, sync.WaitGroup', best_practice: '使用带缓冲的Channel来控制并发数量，避免开启过多的goroutine耗尽系统资源。' },
                 { stage: 3, lang: 'go', title: '实时聊天应用', desc: '使用WebSocket，构建允许多用户实时在线聊天的Web应用。', concepts: 'Websockets, 并发连接管理, Channels', best_practice: '为每个WebSocket连接设置读写超时，并实现心跳机制来处理断开的连接。' },
@@ -299,91 +443,65 @@
             const filterButtons = document.querySelectorAll('#language-filter button');
             
             const langColors = {
-                python: 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200',
-                go: 'bg-sky-100 dark:bg-sky-900/40 text-sky-800 dark:text-sky-200',
-                php: 'bg-violet-100 dark:bg-violet-900/40 text-violet-800 dark:text-violet-200'
+                python: 'bg-blue-900/40 text-blue-200',
+                go: 'bg-sky-900/40 text-sky-200',
+                php: 'bg-violet-900/40 text-violet-200'
             };
 
             const stageColors = {
-                1: 'border-gray-300 dark:border-gray-600',
-                2: 'border-gray-400 dark:border-gray-500',
-                3: 'border-gray-500 dark:border-gray-400'
+                1: 'border-gray-600',
+                2: 'border-gray-500',
+                3: 'border-gray-400'
             };
             
             function renderProjects(filterLang) {
+                if (!projectGrid) return;
                 projectGrid.innerHTML = '';
                 const filteredProjects = projects.filter(p => filterLang === 'all' || p.lang === filterLang);
                 
-                filteredProjects.forEach(p => {
+                filteredProjects.forEach((p, index) => {
                     const card = document.createElement('div');
-                    card.className = `project-card flex flex-col p-5 rounded-xl border-t-4 ${stageColors[p.stage]} bg-white dark:bg-slate-800/50 shadow-md hover:shadow-xl dark:hover:shadow-slate-700/50 hover:-translate-y-1`;
+                    card.className = `project-card flex flex-col p-5 rounded-xl border-t-4 ${stageColors[p.stage]} bg-slate-800/50 shadow-md`;
+                    card.style.animationDelay = `${index * 70}ms`;
                     card.dataset.lang = p.lang;
 
                     card.innerHTML = `
                         <div class="flex-grow">
                             <div class="flex justify-between items-start mb-3">
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full ${langColors[p.lang]}">${p.lang.toUpperCase()}</span>
-                                <span class="text-xs font-medium text-slate-500 dark:text-slate-400">阶段 ${p.stage}</span>
+                                <span class="text-xs font-medium text-slate-400">阶段 ${p.stage}</span>
                             </div>
-                            <h4 class="font-bold text-lg text-slate-800 dark:text-slate-100 mb-2">${p.title}</h4>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">${p.desc}</p>
-                            <div class="pt-3 border-t border-slate-200 dark:border-slate-700">
-                               <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold mb-1">核心概念:</p>
-                               <p class="text-sm text-slate-700 dark:text-slate-300">${p.concepts}</p>
+                            <h4 class="font-bold text-lg text-slate-100 mb-2">${p.title}</h4>
+                            <p class="text-sm text-slate-400 mb-4 leading-relaxed">${p.desc}</p>
+                            <div class="pt-3 border-t border-slate-700">
+                               <p class="text-xs text-slate-400 font-semibold mb-1">核心概念:</p>
+                               <p class="text-sm text-slate-300">${p.concepts}</p>
                             </div>
                         </div>
-                        <div class="mt-4 pt-3 border-t border-dashed border-slate-200 dark:border-slate-700">
-                            <p class="text-xs font-semibold text-teal-600 dark:text-teal-400 mb-1">💡 最佳实践:</p>
-                            <p class="text-sm text-slate-700 dark:text-slate-300">${p.best_practice}</p>
+                        <div class="mt-4 pt-3 border-t border-dashed border-slate-700">
+                            <p class="text-xs font-semibold text-teal-400 mb-1">💡 最佳实践:</p>
+                            <p class="text-sm text-slate-300">${p.best_practice}</p>
                         </div>
                     `;
                     projectGrid.appendChild(card);
                 });
             }
 
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => {
-                        btn.classList.remove('bg-teal-600', 'dark:bg-teal-500', 'text-white');
-                        btn.classList.add('bg-slate-200', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-300');
+            if (filterButtons.length > 0) {
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        filterButtons.forEach(btn => {
+                            btn.classList.remove('bg-teal-500', 'text-white');
+                            btn.classList.add('bg-slate-700', 'text-slate-300');
+                        });
+                        button.classList.add('bg-teal-500', 'text-white');
+                        button.classList.remove('bg-slate-700', 'text-slate-300');
+                        renderProjects(button.dataset.lang);
                     });
-                    button.classList.add('bg-teal-600', 'dark:bg-teal-500', 'text-white');
-                    button.classList.remove('bg-slate-200', 'dark:bg-slate-700', 'text-slate-700', 'dark:text-slate-300');
-                    renderProjects(button.dataset.lang);
                 });
-            });
+            }
 
             renderProjects('all');
-
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const darkIcon = document.getElementById('theme-toggle-dark-icon');
-            const lightIcon = document.getElementById('theme-toggle-light-icon');
-
-            function updateThemeUI() {
-                const isDark = document.documentElement.classList.contains('dark');
-                if (isDark) {
-                    lightIcon.classList.remove('hidden');
-                    darkIcon.classList.add('hidden');
-                } else {
-                    darkIcon.classList.remove('hidden');
-                    lightIcon.classList.add('hidden');
-                }
-                
-                if (window.learningTimeChart) {
-                    learningTimeChart.options.plugins.legend.labels.color = isDark ? 'rgba(203, 213, 225, 0.8)' : 'rgba(51, 65, 85, 0.8)';
-                    learningTimeChart.options.plugins.title.color = isDark ? 'rgba(241, 245, 249, 1)' : 'rgba(15, 23, 42, 1)';
-                    learningTimeChart.data.datasets[0].borderColor = [isDark ? '#1e293b' : '#f8fafc', isDark ? '#1e293b' : '#f8fafc'];
-                    learningTimeChart.update();
-                }
-            }
-            
-            updateThemeUI();
-
-            themeToggleBtn.addEventListener('click', function() {
-                const isDark = document.documentElement.classList.toggle('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                updateThemeUI();
-            });
         });
     </script>
 
