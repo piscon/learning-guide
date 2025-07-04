@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编程学习远征指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral with Teal Accent -->
+    <!-- Application Structure Plan: A tab-based dashboard interface is chosen to break down the dense report into four logical, digestible sections: 'Diagnosis', 'Strategy', 'Blueprint', and 'Tools'. This non-linear structure respects the user's intent, allowing them to jump directly to the content they need (e.g., project ideas) without being forced through a linear narrative. This enhances usability by transforming a passive reading experience into an active exploration, which is more engaging for the target audience of learners seeking actionable advice. Key interactions include tab navigation, dynamic language filtering for projects, and interactive diagrams/charts. -->
+    <!-- Visualization & Content Choices: 
+        - "Tutorial Hell" Cycle: Presented as a visual, circular flow diagram using HTML/CSS to be more intuitive than a list. Goal: Organize/Inform. Method: Tailwind Flexbox.
+        - Knowledge Gap: A side-by-side comparison visualizes Declarative vs. Procedural knowledge. Goal: Compare. Method: Tailwind Grid.
+        - Learning Time Distribution: A Doughnut chart from Chart.js visualizes the imbalance between passive watching and active coding, providing a quick data-driven insight. Goal: Inform/Impact. Library: Chart.js.
+        - Project Roadmaps: Interactive cards with language filters (JS-powered) and expandable details. This turns a static table into a user-driven exploration tool. Goal: Organize/Inform. Method: HTML/CSS Cards, JS for filtering/interaction.
+        - Support System: Resource cards for tools and communities provide scannable, actionable links. Goal: Inform. Method: Tailwind Grid.
+        - All choices are made to increase interactivity and visual clarity, directly addressing the report's core concepts. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
+        .tab-active { color: #0d9488; border-color: #0d9488; background-color: #f0fdfa; }
+        .tab-inactive { color: #52525b; border-color: transparent; }
+        .chart-container { position: relative; width: 100%; max-width: 400px; margin-left: auto; margin-right: auto; height: 300px; max-height: 350px; }
+        .section-content { display: none; }
+        .section-content.active { display: block; }
+        .project-card { transition: all 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-slate-900">编程学习远征指南</h1>
+            <p class="mt-4 text-lg text-slate-600">打破“教程地狱”循环，从学习者进化为实践者</p>
+        </header>
+
+        <nav class="mb-8 border-b border-slate-200">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="tab-navigation">
+                <li><button class="inline-block p-4 border-b-2 rounded-t-lg tab-active" data-tab="diagnosis">🧭 诊断困境</button></li>
+                <li><button class="inline-block p-4 border-b-2 rounded-t-lg tab-inactive" data-tab="strategy">🚀 核心策略</button></li>
+                <li><button class="inline-block p-4 border-b-2 rounded-t-lg tab-inactive" data-tab="blueprint">🗺️ 实战蓝图</button></li>
+                <li><button class="inline-block p-4 border-b-2 rounded-t-lg tab-inactive" data-tab="tools">🧠 工具与社区</button></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="diagnosis" class="section-content active">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">第一部分：为何您会卡在“新手村”？</h2>
+                    <p class="text-slate-600 mb-8">您并不孤单。无数学习者都曾陷入“观看教程、尝试、失败、遗忘、再看教程”的循环。这被称为“教程地狱”，其背后有深刻的认知规律。本部分将帮助您诊断问题的根源。</p>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-xl font-semibold text-slate-800 mb-3">“教程地狱”的循环</h3>
+                            <p class="text-slate-600 mb-4">教程提供了“进步的幻觉”，让您在没有真正面对和解决未知问题的情况下获得虚假的成就感，从而削弱了您独立解决问题的能力。</p>
+                            <div class="space-y-4">
+                                <div class="p-4 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
+                                    <h4 class="font-bold">1. 学习新技能</h4>
+                                    <p class="text-sm text-red-700">完成一个新教程，感觉良好。</p>
+                                </div>
+                                <div class="text-center text-red-500 text-2xl font-light">↓</div>
+                                <div class="p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                                    <h4 class="font-bold">2. 尝试独立构建</h4>
+                                    <p class="text-sm text-yellow-700">遇到未知问题，不知所措。</p>
+                                </div>
+                                <div class="text-center text-yellow-500 text-2xl font-light">↓</div>
+                                <div class="p-4 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
+                                    <h4 class="font-bold">3. 感到挫败</h4>
+                                    <p class="text-sm text-blue-700">信心受挫，寻求新的教程来逃避。</p>
+                                </div>
+                                 <div class="text-center text-blue-500 text-2xl font-light">↓</div>
+                                <div class="p-4 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
+                                    <h4 class="font-bold">4. 回到第一步</h4>
+                                    <p class="text-sm text-red-700">开始一个新的教程，循环往复。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-slate-800 mb-3">失衡的学习时间</h3>
+                            <p class="text-slate-600 mb-4">“教程地狱”中的学习者，其时间分配往往极不均衡，绝大部分时间用于被动输入，而主动实践的时间严重不足。</p>
+                            <div class="chart-container">
+                                <canvas id="learningTimeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12 pt-8 border-t border-slate-200">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-4 text-center">两种知识的鸿沟</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="p-6 bg-slate-100 rounded-xl">
+                                <h4 class="text-lg font-bold text-center mb-2">📚 声明性知识 (Knowing-What)</h4>
+                                <p class="text-slate-600 text-center">关于事实和概念的知识，即“知道是什么”。这是教程最擅长传授的。</p>
+                                <ul class="mt-4 space-y-2 list-disc list-inside text-slate-700">
+                                    <li>知道 `def` 是Python的函数关键字。</li>
+                                    <li>知道 `git commit` 是提交命令。</li>
+                                    <li>能背诵出RESTful的四个主要HTTP方法。</li>
+                                </ul>
+                                <p class="mt-4 text-center text-sm font-medium text-red-600">仅有这类知识，您无法构建任何东西。</p>
+                            </div>
+                            <div class="p-6 bg-teal-50 rounded-xl border border-teal-200">
+                                <h4 class="text-lg font-bold text-center text-teal-800 mb-2">🛠️ 过程性知识 (Knowing-How)</h4>
+                                <p class="text-slate-600 text-center">应用知识解决问题的能力，即“知道怎么做”。这只能通过实践获得。</p>
+                                 <ul class="mt-4 space-y-2 list-disc list-inside text-teal-700">
+                                    <li>知道如何组合不同函数来完成一个复杂任务。</li>
+                                    <li>面对bug，系统性地进行调试并定位问题。</li>
+                                    <li>将一个大项目分解为可管理的小模块。</li>
+                                </ul>
+                                <p class="mt-4 text-center text-sm font-medium text-green-600">这是成为独立开发者的关键。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="strategy" class="section-content">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">第二部分：核心策略——拥抱项目驱动学习 (PBL)</h2>
+                    <p class="text-slate-600 mb-8">解决方案不是“更努力地学习”，而是“更聪明地学习”。“项目驱动学习法”（PBL）是“教程地狱”的终极解药。它将学习过程颠倒：不再是为学而学，而是为用而学，在解决真实问题的过程中获取知识。</p>
+
+                    <div class="p-6 bg-sky-50 border-l-4 border-sky-500 rounded-lg mb-8">
+                         <h3 class="text-xl font-semibold text-sky-900 mb-2">PBL的学习路径</h3>
+                         <p class="text-sky-800">**遇到一个有意义的项目 → 探索如何实现它 → 学习必需的知识 → 应用知识解决问题 → 遇到新问题 → 循环。** 这才是真实世界的工作方式。</p>
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-slate-800 mb-4">您的第一个“真正”的项目：搭建专业开发环境</h3>
+                    <p class="text-slate-600 mb-6">在编写代码前，您的“零号项目”就是搭建一个专业的工作环境。完成它，意味着您从“教程的追随者”转变为“环境的构建者”，这是心态上的巨大转变。</p>
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="p-5 bg-slate-100 rounded-xl">
+                            <div class="text-3xl mb-3">⌨️</div>
+                            <h4 class="font-bold text-slate-800">1. 配置IDE</h4>
+                            <p class="text-sm text-slate-600 mt-1">安装并配置VS Code或JetBrains系列IDE，学会使用插件和集成终端。</p>
+                        </div>
+                        <div class="p-5 bg-slate-100 rounded-xl">
+                            <div class="text-3xl mb-3">🌿</div>
+                            <h4 class="font-bold text-slate-800">2. 掌握Git</h4>
+                            <p class="text-sm text-slate-600 mt-1">学习`git init`, `git add`, `git commit`。为您的所有项目提供版本控制。</p>
+                        </div>
+                        <div class="p-5 bg-slate-100 rounded-xl">
+                            <div class="text-3xl mb-3">📦</div>
+                            <h4 class="font-bold text-slate-800">3. 使用虚拟环境</h4>
+                            <p class="text-sm text-slate-600 mt-1">为每个项目创建隔离的环境 (Python的venv, Go的Modules, PHP的Composer)。</p>
+                        </div>
+                        <div class="p-5 bg-slate-100 rounded-xl">
+                            <div class="text-3xl mb-3">📁</div>
+                            <h4 class="font-bold text-slate-800">4. 规范项目结构</h4>
+                            <p class="text-sm text-slate-600 mt-1">建立清晰的目录结构，如`src/`, `tests/`, `docs/`。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="blueprint" class="section-content">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">第三部分：实战蓝图——您的进阶项目路径</h2>
+                    <p class="text-slate-600 mb-8">理论需要实践来落地。本部分为您提供从模仿到创造的“三步进阶模型”，以及针对Python、Go、PHP的详细项目路线图。请选择一门语言，开始您的建造之旅。</p>
+                    
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-4 text-center">三步进阶模型</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                            <div class="p-4 bg-gray-100 rounded-lg">
+                                <div class="text-2xl font-bold text-gray-400 mb-2">Step 1</div>
+                                <h4 class="font-semibold text-gray-800">模仿与微调</h4>
+                                <p class="text-sm text-gray-600 mt-1">跟随高质量教程，完成后必须独立增加或修改功能。</p>
+                            </div>
+                            <div class="flex items-center justify-center text-2xl text-gray-400 font-light hidden md:flex">→</div>
+                            <div class="p-4 bg-gray-200 rounded-lg">
+                                <div class="text-2xl font-bold text-gray-500 mb-2">Step 2</div>
+                                <h4 class="font-semibold text-gray-800">组合与重构</h4>
+                                <p class="text-sm text-gray-600 mt-1">将多个已完成的小项目组合，构建一个更复杂的系统。</p>
+                            </div>
+                            <div class="flex items-center justify-center text-2xl text-gray-400 font-light hidden md:flex">→</div>
+                             <div class="p-4 bg-gray-300 rounded-lg">
+                                <div class="text-2xl font-bold text-gray-600 mb-2">Step 3</div>
+                                <h4 class="font-semibold text-gray-800">独立创造</h4>
+                                <p class="text-sm text-gray-600 mt-1">从一个个人想法出发，完整地构建一个最小可行产品。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center space-x-2 mb-8" id="language-filter">
+                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-teal-500 text-white" data-lang="all">全部</button>
+                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-200 text-slate-700" data-lang="python">Python</button>
+                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-200 text-slate-700" data-lang="go">Go</button>
+                        <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-200 text-slate-700" data-lang="php">PHP</button>
+                    </div>
+
+                    <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Project cards will be injected here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="tools" class="section-content">
+                <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">第四部分：构建您的支持系统</h2>
+                    <p class="text-slate-600 mb-8">持久的成长需要强大的系统支持。以下工具和策略将帮助您巩固知识、管理信息、高效求助，并找到您的“部落”。</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="p-6 bg-indigo-50 rounded-xl">
+                             <h3 class="text-xl font-semibold text-indigo-900 mb-3">🧠 构建第二大脑</h3>
+                             <p class="text-indigo-800 mb-4">使用工具记录和组织您的学习，将零散经验转化为结构化智慧。</p>
+                             <div class="space-y-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="text-2xl">🗂️</div>
+                                    <div>
+                                        <h4 class="font-bold">Anki：对抗遗忘</h4>
+                                        <p class="text-sm">使用间隔重复法，将核心概念和解决方案转化为长期记忆。</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="text-2xl">💎</div>
+                                    <div>
+                                        <h4 class="font-bold">Obsidian：个人知识库</h4>
+                                        <p class="text-sm">建立可链接、可搜索的笔记系统，记录项目日志、代码片段和错误解决方案。</p>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="p-6 bg-green-50 rounded-xl">
+                            <h3 class="text-xl font-semibold text-green-900 mb-3">🤝 加入社区与高效求助</h3>
+                            <p class="text-green-800 mb-4">卡住是常态，学会求助是核心技能。一个高质量的提问能为您节省大量时间。</p>
+                             <div class="space-y-4">
+                                <div class="flex items-start space-x-4">
+                                     <div class="text-2xl">❓</div>
+                                     <div>
+                                        <h4 class="font-bold">提问的艺术</h4>
+                                        <p class="text-sm">学习如何提供上下文、最小可复现示例、以及描述期望与实际结果。</p>
+                                     </div>
+                                </div>
+                                 <div class="flex items-start space-x-4">
+                                     <div class="text-2xl">🌐</div>
+                                     <div>
+                                        <h4 class="font-bold">寻找部落</h4>
+                                        <p class="text-sm">加入Python/Go/PHP的Discord、Reddit等社区，与其他开发者交流。</p>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('#tab-navigation button');
+            const sections = document.querySelectorAll('.section-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.replace('tab-active', 'tab-inactive'));
+                    tab.classList.replace('tab-inactive', 'tab-active');
+
+                    const target = document.getElementById(tab.dataset.tab);
+                    sections.forEach(s => s.classList.remove('active'));
+                    target.classList.add('active');
+                });
+            });
+
+            const ctx = document.getElementById('learningTimeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['被动观看教程', '主动编码实践'],
+                    datasets: [{
+                        label: '时间分配',
+                        data: [80, 20],
+                        backgroundColor: ['#fca5a5', '#86efac'],
+                        borderColor: ['#ef4444', '#22c55e'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', },
+                        title: { display: true, text: '“教程地狱”中的典型时间分配' }
+                    }
+                }
+            });
+
+            const projects = [
+                { stage: 1, lang: 'python', title: '猜数字游戏', desc: '计算机生成随机数，用户猜测，并获得提示。', concepts: '变量, input(), if-else, while循环, random模块' },
+                { stage: 1, lang: 'python', title: '命令行计算器', desc: '实现加、减、乘、除运算的命令行程序。', concepts: '函数, 参数, 用户输入, 错误处理' },
+                { stage: 2, lang: 'python', title: '天气查询应用 (API)', desc: '调用免费天气API，获取并显示指定城市的天气。', concepts: 'requests库, JSON解析, 字典, API请求' },
+                { stage: 2, lang: 'python', title: '简单的网站爬虫', desc: '抓取特定网页的文章标题和链接。', concepts: 'requests, BeautifulSoup, for循环, 列表' },
+                { stage: 3, lang: 'python', title: '个人开销追踪Web应用', desc: '使用Flask或Django，构建记录开销并生成报告的Web应用。', concepts: 'Web框架, 数据库, ORM, 用户认证' },
+                { stage: 3, lang: 'python', title: '自动化枯燥任务', desc: '编写脚本自动整理文件、发送邮件等。', concepts: 'os/shutil模块, 定时任务, smtplib' },
+                
+                { stage: 1, lang: 'go', title: '简单的Web服务器', desc: '使用标准库构建一个响应"Hello, World!"的Web服务器。', concepts: 'net/http, HandleFunc, Go模块管理' },
+                { stage: 1, lang: 'go', title: '命令行待办事项工具', desc: '通过命令行管理待办事项，数据存储在本地文件。', concepts: 'os包, struct, json/csv, bufio' },
+                { stage: 2, lang: 'go', title: 'CRUD API服务', desc: '使用Gin或Fiber等框架，构建一个完整的增删改查API。', concepts: 'Web框架, 路由, 模型绑定, RESTful' },
+                { stage: 2, lang: 'go', title: '并发Web爬虫', desc: '并发地抓取多个页面以提高速度。', concepts: 'Goroutines, Channels, sync.WaitGroup' },
+                { stage: 3, lang: 'go', title: '实时聊天应用', desc: '使用WebSocket，构建允许多用户实时在线聊天的Web应用。', concepts: 'Websockets, 并发连接管理, Channels' },
+                { stage: 3, lang: 'go', title: '与公共API交互的CLI', desc: '创建与GitHub等公共API交互的命令行工具。', concepts: 'net/http客户端, API认证, 命令行输出' },
+
+                { stage: 1, lang: 'php', title: '简单的联系表单', desc: '创建HTML表单，PHP脚本接收数据并发送邮件。', concepts: '$_POST, HTML表单, mail()函数, 数据验证' },
+                { stage: 1, lang: 'php', title: '随机名言生成器', desc: '每次刷新页面时，从预定义的数组中随机显示一条名言。', concepts: 'PHP数组, rand(), echo' },
+                { stage: 2, lang: 'php', title: '简单的博客/留言板', desc: '发布文章并显示列表，数据存储在MySQL中。', concepts: 'PDO/MySQLi, SQL, 密码哈希' },
+                { stage: 2, lang: 'php', title: '文件上传和展示系统', desc: '允许用户上传图片，并以图库形式展示。', concepts: '$_FILES, move_uploaded_file(), 文件安全' },
+                { stage: 3, lang: 'php', title: '基础的购物车系统', desc: '实现商品列表、加入购物车、查看购物车等功能。', concepts: 'Sessions, 数组操作, OOP基础' },
+                { stage: 3, lang: 'php', title: '简单的内容管理系统(CMS)', desc: '构建后台系统，管理前台内容。', concepts: '用户认证, 后台界面, MVC思想' },
+            ];
+            
+            const projectGrid = document.getElementById('project-grid');
+            const filterButtons = document.querySelectorAll('#language-filter button');
+            
+            const langColors = {
+                python: 'bg-blue-100 text-blue-800',
+                go: 'bg-sky-100 text-sky-800',
+                php: 'bg-violet-100 text-violet-800'
+            };
+
+            const stageColors = {
+                1: 'border-gray-300',
+                2: 'border-gray-400',
+                3: 'border-gray-500'
+            };
+            
+            function renderProjects(filterLang) {
+                projectGrid.innerHTML = '';
+                const filteredProjects = projects.filter(p => filterLang === 'all' || p.lang === filterLang);
+                
+                filteredProjects.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = `project-card p-5 rounded-xl border-t-4 ${stageColors[p.stage]} bg-white shadow-md hover:shadow-xl hover:-translate-y-1`;
+                    card.dataset.lang = p.lang;
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2 py-1 text-xs font-semibold rounded-full ${langColors[p.lang]}">${p.lang.toUpperCase()}</span>
+                            <span class="text-xs font-medium text-slate-500">阶段 ${p.stage}</span>
+                        </div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-2">${p.title}</h4>
+                        <p class="text-sm text-slate-600 mb-4">${p.desc}</p>
+                        <div class="pt-3 border-t border-slate-200">
+                           <p class="text-xs text-slate-500 font-semibold">核心概念:</p>
+                           <p class="text-sm text-slate-700">${p.concepts}</p>
+                        </div>
+                    `;
+                    projectGrid.appendChild(card);
+                });
+            }
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('bg-teal-500', 'text-white'));
+                    filterButtons.forEach(btn => btn.classList.add('bg-slate-200', 'text-slate-700'));
+                    button.classList.add('bg-teal-500', 'text-white');
+                    button.classList.remove('bg-slate-200', 'text-slate-700');
+                    renderProjects(button.dataset.lang);
+                });
+            });
+
+            renderProjects('all');
+        });
+    </script>
+
+</body>
+</html>
