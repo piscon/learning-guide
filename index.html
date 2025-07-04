@@ -9,9 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <!-- Chosen Palette: Warm Neutral with Teal Accent -->
     <!-- Application Structure Plan: A tab-based dashboard interface is chosen to break down the dense report into four logical, digestible sections: 'Diagnosis', 'Strategy', 'Blueprint', and 'Tools'. This non-linear structure respects the user's intent, allowing them to jump directly to the content they need (e.g., project ideas) without being forced through a linear narrative. This enhances usability by transforming a passive reading experience into an active exploration, which is more engaging for the target audience of learners seeking actionable advice. Key interactions include tab navigation, dynamic language filtering for projects, and interactive diagrams/charts. -->
-    <!-- Visualization & Content Choices: 
+    <!-- Visualization & Content Choices:
         - "Tutorial Hell" Cycle: Presented as a visual, circular flow diagram using HTML/CSS to be more intuitive than a list. Goal: Organize/Inform. Method: Tailwind Flexbox.
         - Knowledge Gap: A side-by-side comparison visualizes Declarative vs. Procedural knowledge. Goal: Compare. Method: Tailwind Grid.
         - Learning Time Distribution: A Doughnut chart from Chart.js visualizes the imbalance between passive watching and active coding, providing a quick data-driven insight. Goal: Inform/Impact. Library: Chart.js.
@@ -19,42 +20,6 @@
         - Support System: Resource cards for tools and communities provide scannable, actionable links. Goal: Inform. Method: Tailwind Grid.
         - All choices are made to increase interactivity and visual clarity, directly addressing the report's core concepts. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <style>
-        body { font-family: 'Inter', 'Noto Sans SC', sans-serif; }
-        .tab-active { color: #ccfbf1; }
-        .tab-inactive { color: #a1a1aa; }
-        .chart-container { position: relative; width: 100%; max-width: 380px; margin-left: auto; margin-right: auto; height: 300px; max-height: 350px; }
-        .section-content { display: none; }
-        .section-content.active { display: block; animation: fadeIn 0.6s ease-in-out; }
-        .project-card, .info-card { transition: all 0.3s ease-in-out; }
-        .project-card:hover, .info-card:hover { 
-            transform: translateY(-4px);
-            box-shadow: 0 0 25px rgba(20, 184, 166, 0.2);
-        }
-        .project-card {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: cardFadeInUp 0.5s ease-out forwards;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes cardFadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2.75rem;
-            top: 0.5rem;
-            width: 1rem;
-            height: 1rem;
-            border-radius: 9999px;
-            background-color: #5eead4;
-            border: 3px solid #115e59;
-        }
-    </style>
 </head>
 <body class="bg-slate-900 text-slate-200">
 
@@ -141,7 +106,7 @@
                                 <span class="font-mono text-teal-400">深刻理解</span>
                             </div>
                         </div>
-                        
+
                         <div>
                             <h3 class="text-xl font-semibold text-slate-100 mb-4">1.3 基础战役：从代码到作品</h3>
                             <p class="text-slate-400 mb-6 leading-relaxed">有了顶层战略，我们需要具体的战术来执行。以下是您将知识转化为作品的第一个、也是最关键的战役。</p>
@@ -180,7 +145,7 @@
                 <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
                     <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第二部分：实战工作簿 (Lab-Only Workbook)</h2>
                     <p class="text-slate-400 mb-8 leading-relaxed">理论需要实践来落地。本部分是您的“实战工作簿”，提供从模仿到创造的“三步进阶模型”，以及针对Python、Go、PHP的详细项目路线图。请选择一门语言，开始您的建造之旅。</p>
-                    
+
                     <div class="flex justify-center space-x-2 mb-8" id="language-filter">
                         <button class="px-4 py-2 text-sm font-medium rounded-full bg-teal-500 text-white transition-all duration-300" data-lang="all">全部</button>
                         <button class="px-4 py-2 text-sm font-medium rounded-full bg-slate-700 text-slate-300 transition-all duration-300" data-lang="python">Python</button>
@@ -192,7 +157,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <section id="chronicles" class="section-content">
                 <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
                     <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第三部分：领域编年史 (Chronicles)</h2>
@@ -249,12 +214,12 @@
                     </div>
                 </div>
             </section>
-            
+
             <section id="roadmap" class="section-content">
                 <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
                     <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第四部分：职业远征路线图</h2>
                     <p class="text-slate-400 mb-8 leading-relaxed">恭喜您！当您能独立完成项目时，您已经不再是新手。这并非终点，而是新征程的起点。本部分将为您提供职业发展的宏观地图，帮助您规划从“能做项目”到“成为专家”的道路。</p>
-                    
+
                     <div class="space-y-12">
                         <div class="p-6 bg-slate-800/50 rounded-xl info-card">
                              <h3 class="text-xl font-semibold text-slate-100 mb-3">核心理念：成为“T型人才”</h3>
@@ -306,7 +271,7 @@
                 <div class="bg-slate-800 p-6 md:p-8 rounded-2xl shadow-lg shadow-slate-900/50 border border-slate-700">
                     <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">第五部分：工具与资源中心</h2>
                     <p class="text-slate-400 mb-8 leading-relaxed">本部分是前述所有理论、战略和实践的“军火库”。它遵循奥卡姆剃刀法则，为您精选了每个环节中最核心、最受社区认可的工具和资源，避免您在选择上耗费精力。</p>
-                    
+
                     <div class="space-y-10">
                         <div class="p-6 bg-slate-800/50 rounded-xl">
                              <h3 class="text-lg font-semibold text-slate-100 mb-4">开发与构建</h3>
@@ -325,7 +290,7 @@
                                 <div><h4 class="font-bold text-cyan-300">测试框架</h4><p class="mt-1 text-sm text-slate-400">Python: <a href="https://docs.pytest.org/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cyan-400">pytest</a>。<br>Go: 内置的 `testing` 包。<br>PHP: <a href="https://phpunit.de/" target="_blank" rel="noopener noreferrer" class="underline hover:text-cyan-400">PHPUnit</a>。</p></div>
                              </div>
                         </div>
-                        
+
                         <div class="p-6 bg-slate-800/50 rounded-xl">
                              <h3 class="text-lg font-semibold text-slate-100 mb-4">部署与上线</h3>
                              <div class="grid md:grid-cols-3 gap-6">
@@ -351,159 +316,8 @@
         </main>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabs = document.querySelectorAll('#tab-navigation button');
-            const allSections = document.querySelectorAll('main > section');
-            const underline = document.getElementById('tab-underline');
-
-            function updateUnderline(element) {
-                underline.style.left = `${element.offsetLeft}px`;
-                underline.style.width = `${element.offsetWidth}px`;
-            }
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    tabs.forEach(t => t.classList.replace('tab-active', 'tab-inactive'));
-                    tab.classList.replace('tab-inactive', 'tab-active');
-                    
-                    updateUnderline(tab);
-
-                    allSections.forEach(s => s.classList.remove('active'));
-                    
-                    const targetId = tab.dataset.tab;
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        targetSection.classList.add('active');
-                    }
-                });
-            });
-
-            const initialActiveTab = document.querySelector('#tab-navigation .tab-active');
-            if (initialActiveTab) {
-                const initialTargetId = initialActiveTab.dataset.tab;
-                const initialTargetSection = document.getElementById(initialTargetId);
-                allSections.forEach(s => s.classList.remove('active'));
-                if (initialTargetSection) {
-                    initialTargetSection.classList.add('active');
-                    setTimeout(() => updateUnderline(initialActiveTab), 50);
-                }
-            }
-
-
-            const chartLabelColor = 'rgba(203, 213, 225, 0.8)';
-            const chartTitleColor = 'rgba(241, 245, 249, 1)';
-            const chartBorderColor = '#1e293b';
-
-            const ctx = document.getElementById('learningTimeChart').getContext('2d');
-            window.learningTimeChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['被动观看教程', '主动编码实践'],
-                    datasets: [{
-                        label: '时间分配',
-                        data: [80, 20],
-                        backgroundColor: ['#fca5a5', '#86efac'],
-                        borderColor: [chartBorderColor, chartBorderColor],
-                        borderWidth: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: chartLabelColor, font: {size: 14} } },
-                        title: { display: true, text: '“教程地狱”中的典型时间分配', color: chartTitleColor, font: { size: 16 } }
-                    },
-                    cutout: '60%'
-                }
-            });
-
-            const projects = [
-                { stage: 1, lang: 'python', title: '猜数字游戏', desc: '计算机生成随机数，用户猜测，并获得提示。', concepts: '变量, input(), if-else, while循环, random模块', best_practice: '为用户输入添加错误处理，例如确保输入的是数字。' },
-                { stage: 1, lang: 'python', title: '命令行计算器', desc: '实现加、减、乘、除运算的命令行程序。', concepts: '函数, 参数, 用户输入, 错误处理', best_practice: '使用 `argparse` 库来创建更健壮的命令行接口。' },
-                { stage: 2, lang: 'python', title: '天气查询应用 (API)', desc: '调用免费天气API，获取并显示指定城市的天气。', concepts: 'requests库, JSON解析, 字典, API请求', best_practice: '使用 `.env` 文件管理API密钥，不要硬编码在代码中。' },
-                { stage: 2, lang: 'python', title: '简单的网站爬虫', desc: '抓取特定网页的文章标题和链接。', concepts: 'requests, BeautifulSoup, for循环, 列表', best_practice: '遵守网站的 `robots.txt` 规则，并添加适当的延时，避免对服务器造成过大压力。' },
-                { stage: 3, lang: 'python', title: '个人开销追踪Web应用', desc: '使用Flask或Django，构建记录开销并生成报告的Web应用。', concepts: 'Web框架, 数据库, ORM, 用户认证', best_practice: '使用 `pytest` 编写单元测试，确保核心业务逻辑（如记账、统计）的正确性。' },
-                
-                { stage: 1, lang: 'go', title: '简单的Web服务器', desc: '使用标准库构建一个响应"Hello, World!"的Web服务器。', concepts: 'net/http, HandleFunc, Go模块管理', best_practice: '将不同的路由处理逻辑拆分到独立的函数中，而不是全部写在 `main` 函数里。' },
-                { stage: 1, lang: 'go', title: '命令行待办事项工具', desc: '通过命令行管理待办事项，数据存储在本地文件。', concepts: 'os包, struct, json/csv, bufio', best_practice: '使用 `cobra` 或 `urfave/cli` 库来创建更强大的命令行接口。' },
-                { stage: 2, lang: 'go', title: 'CRUD API服务', desc: '使用Gin或Fiber等框架，构建一个完整的增删改查API。', concepts: 'Web框架, 路由, 模型绑定, RESTful', best_practice: '定义清晰的 API 版本（如 `/api/v1/`），并为API响应设计统一的数据结构。' },
-                { stage: 2, lang: 'go', title: '并发Web爬虫', desc: '并发地抓取多个页面以提高速度。', concepts: 'Goroutines, Channels, sync.WaitGroup', best_practice: '使用带缓冲的Channel来控制并发数量，避免开启过多的goroutine耗尽系统资源。' },
-                { stage: 3, lang: 'go', title: '实时聊天应用', desc: '使用WebSocket，构建允许多用户实时在线聊天的Web应用。', concepts: 'Websockets, 并发连接管理, Channels', best_practice: '为每个WebSocket连接设置读写超时，并实现心跳机制来处理断开的连接。' },
-
-                { stage: 1, lang: 'php', title: '简单的联系表单', desc: '创建HTML表单，PHP脚本接收数据并发送邮件。', concepts: '$_POST, HTML表单, mail()函数, 数据验证', best_practice: '对所有用户输入进行严格的验证和过滤，防止XSS攻击。使用 `htmlspecialchars` 输出内容。' },
-                { stage: 1, lang: 'php', title: '随机名言生成器', desc: '每次刷新页面时，从预定义的数组中随机显示一条名言。', concepts: 'PHP数组, rand(), echo', best_practice: '将业务逻辑（选择名言）与表现逻辑（HTML输出）分离，即使在简单的脚本中也要养成好习惯。' },
-                { stage: 2, lang: 'php', title: '简单的博客/留言板', desc: '发布文章并显示列表，数据存储在MySQL中。', concepts: 'PDO/MySQLi, SQL, 密码哈希', best_practice: '始终使用预处理语句（Prepared Statements）来执行SQL查询，以防止SQL注入。' },
-                { stage: 2, lang: 'php', title: '文件上传和展示系统', desc: '允许用户上传图片，并以图库形式展示。', concepts: '$_FILES, move_uploaded_file(), 文件安全', best_practice: '严格验证上传文件的类型、大小，并对文件名进行重命名，防止恶意文件上传。' },
-                { stage: 3, lang: 'php', title: '简单的内容管理系统(CMS)', desc: '构建后台系统，管理前台内容。', concepts: '用户认证, 后台界面, MVC思想', best_practice: '遵循 `PSR-4` 自动加载规范来组织您的类文件，并使用 Composer 的 `autoload` 功能。' },
-            ];
-            
-            const projectGrid = document.getElementById('project-grid');
-            const filterButtons = document.querySelectorAll('#language-filter button');
-            
-            const langColors = {
-                python: 'bg-blue-900/40 text-blue-200',
-                go: 'bg-sky-900/40 text-sky-200',
-                php: 'bg-violet-900/40 text-violet-200'
-            };
-
-            const stageColors = {
-                1: 'border-gray-600',
-                2: 'border-gray-500',
-                3: 'border-gray-400'
-            };
-            
-            function renderProjects(filterLang) {
-                if (!projectGrid) return;
-                projectGrid.innerHTML = '';
-                const filteredProjects = projects.filter(p => filterLang === 'all' || p.lang === filterLang);
-                
-                filteredProjects.forEach((p, index) => {
-                    const card = document.createElement('div');
-                    card.className = `project-card flex flex-col p-5 rounded-xl border-t-4 ${stageColors[p.stage]} bg-slate-800/50 shadow-md`;
-                    card.style.animationDelay = `${index * 70}ms`;
-                    card.dataset.lang = p.lang;
-
-                    card.innerHTML = `
-                        <div class="flex-grow">
-                            <div class="flex justify-between items-start mb-3">
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full ${langColors[p.lang]}">${p.lang.toUpperCase()}</span>
-                                <span class="text-xs font-medium text-slate-400">阶段 ${p.stage}</span>
-                            </div>
-                            <h4 class="font-bold text-lg text-slate-100 mb-2">${p.title}</h4>
-                            <p class="text-sm text-slate-400 mb-4 leading-relaxed">${p.desc}</p>
-                            <div class="pt-3 border-t border-slate-700">
-                               <p class="text-xs text-slate-400 font-semibold mb-1">核心概念:</p>
-                               <p class="text-sm text-slate-300">${p.concepts}</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 pt-3 border-t border-dashed border-slate-700">
-                            <p class="text-xs font-semibold text-teal-400 mb-1">💡 最佳实践:</p>
-                            <p class="text-sm text-slate-300">${p.best_practice}</p>
-                        </div>
-                    `;
-                    projectGrid.appendChild(card);
-                });
-            }
-
-            if (filterButtons.length > 0) {
-                filterButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        filterButtons.forEach(btn => {
-                            btn.classList.remove('bg-teal-500', 'text-white');
-                            btn.classList.add('bg-slate-700', 'text-slate-300');
-                        });
-                        button.classList.add('bg-teal-500', 'text-white');
-                        button.classList.remove('bg-slate-700', 'text-slate-300');
-                        renderProjects(button.dataset.lang);
-                    });
-                });
-            }
-
-            renderProjects('all');
-        });
-    </script>
-
+    <!-- <style>...</style> 已移至 style.css -->
+    <!-- <script>...</script> 已移至 main.js -->
+    <script src="main.js"></script>
 </body>
 </html>

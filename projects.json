@@ -1,0 +1,107 @@
+[
+  {
+    "lang": "python",
+    "stage": [
+      {
+        "title": "猜数字游戏",
+        "desc": "计算机生成随机数，用户猜测，并获得提示。",
+        "concepts": ["变量", "input()", "if-else", "while循环", "random模块"],
+        "best_practice": "为用户输入添加错误处理，例如确保输入的是数字。"
+      },
+      {
+        "title": "命令行计算器",
+        "desc": "实现加、减、乘、除运算的命令行程序。",
+        "concepts": ["函数", "参数", "用户输入", "错误处理"],
+        "best_practice": "使用 `argparse` 库来创建更健壮的命令行接口。"
+      },
+      {
+        "title": "天气查询应用 (API)",
+        "desc": "调用免费天气API，获取并显示指定城市的天气。",
+        "concepts": ["requests库", "JSON解析", "字典", "API请求"],
+        "best_practice": "使用 `.env` 文件管理API密钥，不要硬编码在代码中。"
+      },
+      {
+        "title": "简单的网站爬虫",
+        "desc": "抓取特定网页的文章标题和链接。",
+        "concepts": ["requests", "BeautifulSoup", "for循环", "列表"],
+        "best_practice": "遵守网站的 `robots.txt` 规则，并添加适当的延时，避免对服务器造成过大压力。"
+      },
+      {
+        "title": "个人开销追踪Web应用",
+        "desc": "使用Flask或Django，构建记录开销并生成报告的Web应用。",
+        "concepts": ["Web框架", "数据库", "ORM", "用户认证"],
+        "best_practice": "使用 `pytest` 编写单元测试，确保核心业务逻辑（如记账、统计）的正确性。"
+      }
+    ]
+  },
+  {
+    "lang": "go",
+    "stage": [
+      {
+        "title": "简单的Web服务器",
+        "desc": "使用标准库构建一个响应'Hello, World!'的Web服务器。",
+        "concepts": ["net/http", "HandleFunc", "Go模块管理"],
+        "best_practice": "将不同的路由处理逻辑拆分到独立的函数中，而不是全部写在 `main` 函数里。"
+      },
+      {
+        "title": "命令行待办事项工具",
+        "desc": "通过命令行管理待办事项，数据存储在本地文件。",
+        "concepts": ["os包", "struct", "json/csv", "bufio"],
+        "best_practice": "使用 `cobra` 或 `urfave/cli` 库来创建更强大的命令行接口。"
+      },
+      {
+        "title": "CRUD API服务",
+        "desc": "使用Gin或Fiber等框架，构建一个完整的增删改查API。",
+        "concepts": ["Web框架", "路由", "模型绑定", "RESTful"],
+        "best_practice": "定义清晰的 API 版本（如 `/api/v1/`），并为API响应设计统一的数据结构。"
+      },
+      {
+        "title": "并发Web爬虫",
+        "desc": "并发地抓取多个页面以提高速度。",
+        "concepts": ["Goroutines", "Channels", "sync.WaitGroup"],
+        "best_practice": "使用带缓冲的Channel来控制并发数量，避免开启过多的goroutine耗尽系统资源。"
+      },
+      {
+        "title": "实时聊天应用",
+        "desc": "使用WebSocket，构建允许多用户实时在线聊天的Web应用。",
+        "concepts": ["Websockets", "并发连接管理", "Channels"],
+        "best_practice": "为每个WebSocket连接设置读写超时，并实现心跳机制来处理断开的连接。"
+      }
+    ]
+  },
+  {
+    "lang": "php",
+    "stage": [
+      {
+        "title": "简单的联系表单",
+        "desc": "创建HTML表单，PHP脚本接收数据并发送邮件。",
+        "concepts": ["$_POST", "HTML表单", "mail()函数", "数据验证"],
+        "best_practice": "对所有用户输入进行严格的验证和过滤，防止XSS攻击。使用 `htmlspecialchars` 输出内容。"
+      },
+      {
+        "title": "随机名言生成器",
+        "desc": "每次刷新页面时，从预定义的数组中随机显示一条名言。",
+        "concepts": ["PHP数组", "rand()", "echo"],
+        "best_practice": "将业务逻辑（选择名言）与表现逻辑（HTML输出）分离，即使在简单的脚本中也要养成好习惯。"
+      },
+      {
+        "title": "简单的博客/留言板",
+        "desc": "发布文章并显示列表，数据存储在MySQL中。",
+        "concepts": ["PDO/MySQLi", "SQL", "密码哈希"],
+        "best_practice": "始终使用预处理语句（Prepared Statements）来执行SQL查询，以防止SQL注入。"
+      },
+      {
+        "title": "文件上传和展示系统",
+        "desc": "允许用户上传图片，并以图库形式展示。",
+        "concepts": ["$_FILES", "move_uploaded_file()", "文件安全"],
+        "best_practice": "严格验证上传文件的类型、大小，并对文件名进行重命名，防止恶意文件上传。"
+      },
+      {
+        "title": "简单的内容管理系统(CMS)",
+        "desc": "构建后台系统，管理前台内容。",
+        "concepts": ["用户认证", "后台界面", "MVC思想"],
+        "best_practice": "遵循 `PSR-4` 自动加载规范来组织您的类文件，并使用 Composer 的 `autoload` 功能。"
+      }
+    ]
+  }
+]

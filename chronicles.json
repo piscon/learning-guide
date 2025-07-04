@@ -1,0 +1,41 @@
+[
+  {
+    "lang": "python",
+    "title": "Python：“优雅”与“明确”的哲学",
+    "milestones": [
+      {"year": "2000年", "event": "Python 2.0发布，引入列表推导式等重要特性，社区开始壮大。"},
+      {"year": "2008年", "event": "Python 3.0发布，一个不向后兼容的重大更新，旨在修复早期设计缺陷，统一编码规范。"},
+      {"year": "2010s", "event": "随着NumPy, SciPy, Pandas等库的成熟，Python成为科学计算和数据分析的首选。"},
+      {"year": "至今", "event": "在AI和机器学习浪潮中，凭借TensorFlow, PyTorch等框架，Python确立了其在智能时代的统治地位。"}
+    ],
+    "recommend": "The Zen of Python (PEP 20)",
+    "recommend_url": "https://peps.python.org/pep-0020/",
+    "desc": "诞生于1991年，由Guido van Rossum创造。其核心哲学是“代码应如散文般可读”。Python的设计强调代码的可读性和简洁的语法，旨在让开发者能用更少的代码行数表达想法。"
+  },
+  {
+    "lang": "go",
+    "title": "Go: 为并发与云而生",
+    "milestones": [
+      {"year": "2012年", "event": "Go 1.0发布，做出了向后兼容性承诺，标志着其进入稳定期。"},
+      {"year": "2013-2014年", "event": "Docker和Kubernetes这两个革命性的项目选择使用Go语言开发，极大地推动了Go在云原生领域的普及。"},
+      {"year": "2018年", "event": "Go 1.11引入Modules，提供了官方的、现代化的依赖管理方案，解决了长期以来的包管理痛点。"},
+      {"year": "2022年", "event": "Go 1.18引入泛型，这是Go语言历史上最重要的特性之一，增强了代码的复用性和表达力。"}
+    ],
+    "recommend": "Go at Google: Language Design in the Service of Software Engineering",
+    "recommend_url": "https://go.dev/talks/2012/splash.article",
+    "desc": "于2009年在Google发布，由Robert Griesemer, Rob Pike和Ken Thompson等大师级人物设计。Go的诞生源于对现有语言（如C++）在多核处理器、网络化系统和大规模代码库方面表现的不满。"
+  },
+  {
+    "lang": "php",
+    "title": "PHP: Web的实用主义演化",
+    "milestones": [
+      {"year": "2004年", "event": "PHP 5发布，引入了完整的面向对象模型，标志着PHP开始向更严肃的编程语言演进。"},
+      {"year": "2009年", "event": "PHP-FIG成立，开始制定PSR（PHP Standard Recommendations）规范，推动了社区代码的标准化和互操作性。"},
+      {"year": "2012年", "event": "Composer发布，为PHP带来了现代化的依赖管理，彻底改变了PHP的生态系统。"},
+      {"year": "2015年", "event": "PHP 7发布，带来了巨大的性能提升（比PHP 5快2倍以上），并引入了标量类型声明等现代语言特性，重振了社区信心。"}
+    ],
+    "recommend": "PHP-FIG 和 PSR 规范的历史",
+    "recommend_url": "https://www.php-fig.org/psr/",
+    "desc": "始于1994年，由Rasmus Lerdorf为维护其个人主页而创造的一套简单脚本。PHP的成功在于其极低的入门门槛和与Web服务器的紧密集成，它让构建动态网页变得前所未有的简单。"
+  }
+]
